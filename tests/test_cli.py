@@ -4,7 +4,7 @@ import json
 
 import pytest
 from click.testing import CliRunner
-from autoresearch_memory.cli import cli
+from experiment_memory.cli import cli
 
 
 SAMPLE_TSV = """commit\tmetric_value\tmemory_gb\tstatus\tdescription

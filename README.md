@@ -1,4 +1,4 @@
-# autoresearch-memory
+# experiment-memory
 
 Vector DB storing experiment history so agents can query past results before proposing changes.
 
@@ -28,25 +28,25 @@ pip install -e ".[chromadb]"
 
 ```bash
 # Ingest experiment results
-autoresearch-memory ingest results.tsv
+experiment-memory ingest results.tsv
 
 # Query similar experiments
-autoresearch-memory query "increased learning rate to 0.01"
+experiment-memory query "increased learning rate to 0.01"
 
 # View reasoning journal
-autoresearch-memory journal
+experiment-memory journal
 
 # Show inspiration chains
-autoresearch-memory inspire --experiment-id abc123
+experiment-memory inspire --experiment-id abc123
 
 # Show store statistics
-autoresearch-memory stats
+experiment-memory stats
 ```
 
 ### Python API
 
 ```python
-from autoresearch_memory.store import SimpleMemoryStore
+from experiment_memory.store import SimpleMemoryStore
 
 store = SimpleMemoryStore()
 store.add_experiment(

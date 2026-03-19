@@ -4,7 +4,7 @@ import json
 import os
 
 import pytest
-from autoresearch_memory.store import BaseExperimentStore, SimpleMemoryStore
+from experiment_memory.store import BaseExperimentStore, SimpleMemoryStore
 
 
 class TestSimpleMemoryStore:

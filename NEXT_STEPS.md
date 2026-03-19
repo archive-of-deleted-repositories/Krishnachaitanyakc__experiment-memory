@@ -15,5 +15,5 @@
 ## Long Term
 - Automatic experiment summarization using LLMs
 - Predictive suggestions: "based on history, try X next"
-- Integration with autoresearch-bench for paper-inspired experiments
+- Integration with experiment-bench for paper-inspired experiments
 - Distributed experiment stores across teams

@@ -1,4 +1,4 @@
-"""CLI for autoresearch-memory."""
+"""CLI for experiment-memory."""
 
 from __future__ import annotations
 
@@ -8,10 +8,10 @@ from typing import Any
 
 import click
 
-from autoresearch_memory.inspiration import InspirationTracker
-from autoresearch_memory.journal import JournalManager
-from autoresearch_memory.parser import ExperimentParser
-from autoresearch_memory.store import SimpleMemoryStore
+from experiment_memory.inspiration import InspirationTracker
+from experiment_memory.journal import JournalManager
+from experiment_memory.parser import ExperimentParser
+from experiment_memory.store import SimpleMemoryStore
 
 
 def _get_project_dir(project: str) -> str:
@@ -38,7 +38,7 @@ _inspiration = InspirationTracker()
 @click.option("--project", default=None, help="Project name for multi-project stores")
 @click.pass_context
 def cli(ctx: click.Context, project: str | None) -> None:
-    """autoresearch-memory: Query and explore experiment history."""
+    """experiment-memory: Query and explore experiment history."""
     ctx.ensure_object(dict)
     if project:
         ctx.obj["store"] = _get_store(project)

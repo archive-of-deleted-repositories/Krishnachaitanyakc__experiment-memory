@@ -1,7 +1,7 @@
 """Tests for inspiration tracker."""
 
 import pytest
-from autoresearch_memory.inspiration import InspirationTracker
+from experiment_memory.inspiration import InspirationTracker
 
 
 class TestInspirationTracker:

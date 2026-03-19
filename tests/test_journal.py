@@ -1,7 +1,7 @@
 """Tests for journal manager."""
 
 import pytest
-from autoresearch_memory.journal import JournalManager
+from experiment_memory.journal import JournalManager
 
 
 class TestJournalManager:

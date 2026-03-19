@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from autoresearch_memory.parser import ExperimentParser, ExperimentRecord
+from experiment_memory.parser import ExperimentParser, ExperimentRecord
 
 
 SAMPLE_TSV = """commit\tmetric_value\tmemory_gb\tstatus\tdescription
