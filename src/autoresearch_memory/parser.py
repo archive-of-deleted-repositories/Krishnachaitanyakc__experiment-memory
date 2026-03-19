@@ -1,14 +1,17 @@
-"""Parse results.tsv files and git diffs."""
+"""Parse results files (TSV, JSON, CSV) and git diffs."""
 
 from __future__ import annotations
 
+import csv
+import io
+import json
 import re
 from dataclasses import dataclass
 
 
 @dataclass
 class ExperimentRecord:
-    """A single experiment record from results.tsv."""
+    """A single experiment record from results files."""
 
     commit: str
     metric_value: float
@@ -18,7 +21,7 @@ class ExperimentRecord:
 
 
 class ExperimentParser:
-    """Parse experiment results from TSV files and git diffs."""
+    """Parse experiment results from TSV, JSON, CSV files and git diffs."""
 
     @staticmethod
     def parse_tsv(tsv_content: str) -> list[ExperimentRecord]:
@@ -46,10 +49,75 @@ class ExperimentParser:
         return records
 
     @staticmethod
+    def parse_json(json_content: str) -> list[ExperimentRecord]:
+        """Parse a JSON string into experiment records.
+
+        Expects a JSON array of objects with keys:
+        commit, metric_value, memory_gb, status, description.
+        """
+        data = json.loads(json_content)
+        if not isinstance(data, list):
+            data = [data]
+        records = []
+        for item in data:
+            records.append(
+                ExperimentRecord(
+                    commit=str(item["commit"]),
+                    metric_value=float(item["metric_value"]),
+                    memory_gb=float(item.get("memory_gb", 0.0)),
+                    status=str(item.get("status", "unknown")),
+                    description=str(item["description"]),
+                )
+            )
+        return records
+
+    @staticmethod
+    def parse_csv(csv_content: str) -> list[ExperimentRecord]:
+        """Parse a CSV string into experiment records.
+
+        Expects headers: commit, metric_value, memory_gb, status, description.
+        """
+        reader = csv.DictReader(io.StringIO(csv_content))
+        records = []
+        for row in reader:
+            records.append(
+                ExperimentRecord(
+                    commit=row["commit"].strip(),
+                    metric_value=float(row["metric_value"].strip()),
+                    memory_gb=float(row.get("memory_gb", "0").strip()),
+                    status=row.get("status", "unknown").strip(),
+                    description=row["description"].strip(),
+                )
+            )
+        return records
+
+    @staticmethod
     def parse_tsv_file(filepath: str) -> list[ExperimentRecord]:
         """Parse a TSV file into experiment records."""
         with open(filepath, "r") as f:
             return ExperimentParser.parse_tsv(f.read())
+
+    @staticmethod
+    def parse_json_file(filepath: str) -> list[ExperimentRecord]:
+        """Parse a JSON file into experiment records."""
+        with open(filepath, "r") as f:
+            return ExperimentParser.parse_json(f.read())
+
+    @staticmethod
+    def parse_csv_file(filepath: str) -> list[ExperimentRecord]:
+        """Parse a CSV file into experiment records."""
+        with open(filepath, "r") as f:
+            return ExperimentParser.parse_csv(f.read())
+
+    @staticmethod
+    def parse_file(filepath: str) -> list[ExperimentRecord]:
+        """Auto-detect format from file extension and parse."""
+        if filepath.endswith(".json"):
+            return ExperimentParser.parse_json_file(filepath)
+        elif filepath.endswith(".csv"):
+            return ExperimentParser.parse_csv_file(filepath)
+        else:
+            return ExperimentParser.parse_tsv_file(filepath)
 
     @staticmethod
     def parse_git_diff(diff_text: str) -> dict:
