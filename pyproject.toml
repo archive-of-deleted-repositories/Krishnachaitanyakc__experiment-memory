@@ -7,7 +7,7 @@ name = "autoresearch-memory"
 version = "0.1.0"
 description = "Vector DB storing experiment history so agents query before proposing changes"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = [
     "click>=8.0",
 ]
